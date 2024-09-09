@@ -1,4 +1,4 @@
-from models.model import VATr
+from models.model import AS_Net
 import argparse
 import torch
 import collections
@@ -75,9 +75,9 @@ class FakeArgs:
     add_noise = True
     all_chars = False
 
-class VATr_writer:
+class AS_Net_writer:
     def __init__(self, checkpoint_path, args=FakeArgs()):
-        self.model = VATr(args)
+        self.model = AS_Net(args)
         checkpoint = torch.load(checkpoint_path, map_location=args.device)
         load_checkpoint(self.model, checkpoint)
         self.model.eval()
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     parser.add_argument("-s", "--style-folder", default='files/style_samples/00', type=str)
     parser.add_argument("-t", "--text", default='While there is life there is hope', type=str)
     parser.add_argument("--text-path", default=None, type=str, help='Path to text file with texts to generate')
-    parser.add_argument("-c", "--checkpoint", default='files/vatr.pth', type=str)
+    parser.add_argument("-c", "--checkpoint", default='files/AS_Net.pth', type=str)
     parser.add_argument("-o", "--output", default='files/output.png', type=str)
     parser.add_argument("--add_noise", action='store_true')
     args = parser.parse_args()
@@ -128,11 +128,11 @@ if __name__ == '__main__':
     args.output.parent.mkdir(parents=True, exist_ok=True)
 
     # @ym
-    checkpoint_path = '/home/WeiHongxi/Node95/Ym/Project_20230709_VATr/VATr-raw/saved_models/vatr.pth'
+    checkpoint_path = 'path'
     
     fake_args = FakeArgs()
     fake_args.add_noise = args.add_noise
-    writer = VATr_writer(args.checkpoint, fake_args)
+    writer = AS_Net_writer(args.checkpoint, fake_args)
     writer.set_style_folder(args.style_folder)
     fakes = writer.generate(args.text)
     for i, fake in enumerate(fakes):
